@@ -42,4 +42,18 @@ public class BookController {
     public BookResponse findBook(@RequestParam("title") String title) {
         return bookService.findBooksByTitle(title);
     }
+
+    @PostMapping("create-default")
+    public void createDefault(){
+        BookSaveRequest bookSaveRequest = new BookSaveRequest();
+        bookSaveRequest.setAuthor(RandomStringUtils.randomAlphabetic(1, 25));
+        bookSaveRequest.setTitle("deneme");
+        bookSaveRequest.setId(Integer.toString(111));
+        bookSaveRequest.setReleaseDate(Long.toString(DateTimeUtils.currentTimeMillis()));
+        bookService.save(bookSaveRequest);
+    }
+    @GetMapping("fuzzy-search")
+    public boolean isTitleExists(@RequestParam("title") String title) {
+        return bookService.search(title);
+    }
 }
